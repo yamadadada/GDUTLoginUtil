@@ -1,3 +1,5 @@
+package com.yamada;
+
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.*;
@@ -56,7 +58,7 @@ public class GDUTLoginUtil {
                 if (instance == null) {
                     instance = new GDUTLoginUtil();
                     instance.buildRestTemplate(proxy, connTimeout, readTimeout, enableSsLCheck);
-                    instance.generateCookie();
+                    instance.refreshCookie();
                 }
             }
         }
@@ -124,11 +126,18 @@ public class GDUTLoginUtil {
         return instance;
     }
 
+    public String getCookie() {
+        if (cookie == null) {
+            refreshCookie();
+        }
+        return cookie;
+    }
+
     /**
-     * 生成/刷新cookie
+     * 刷新cookie
      * @return
      */
-    public String generateCookie() {
+    public String refreshCookie() {
         String url = "https://jxfw.gdut.edu.cn/";
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
         List<String> cookies = responseEntity.getHeaders().get("Set-Cookie");
@@ -137,10 +146,6 @@ public class GDUTLoginUtil {
             cookie = cookies.get(0).split(";")[0].split("=")[1];
         }
         this.cookie = cookie;
-        return cookie;
-    }
-
-    public String getCookie() {
         return cookie;
     }
 
