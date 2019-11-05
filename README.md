@@ -22,7 +22,11 @@
 
 ## getting started
 
-具体demo可见Demo类
+具体demo可见[Demo类](<https://github.com/yamadadada/GDUTLoginUtil/blob/master/src/main/java/com/yamada/Demo.java>)
+
+
+
+将GDUTLoginUtil工具类导入自己的项目中
 
 初始化工具类，false表示是否启动SSL证书验证，由于教务系统使用了https，为了方便起见这里选择不验证证书
 
@@ -87,7 +91,7 @@ CryptoJS的导入方法可以前往CryptoJS主页查看：<https://github.com/br
 </script>
 ```
 
-具体可见resources下的password-encode.html文件
+具体可见[password-encode.html](<https://github.com/yamadadada/GDUTLoginUtil/blob/master/src/main/resources/password-encode.html>)
 
 ### 验证登录
 
@@ -97,5 +101,15 @@ if (loginUtil.isLoginSuccess(response)) {
 	return "登录成功，cookie为：" + loginUtil.getCookie();
 }
 return "登录失败：" + loginUtil.getLoginMessage(response);
+```
+
+接下来就可以用登录成功的cookie愉快地玩耍啦
+
+### 刷新cookie
+
+如果遇到cookie失效的情况（login时返回信息已过期），可以使用如下方法刷新cookie（同时图形验证码也需要重新获取）
+
+```java
+GDUTLoginUtil.getInstance().refreshCookie();
 ```
 
